@@ -1,8 +1,15 @@
- __pycache__/
+# Python cache va kompilyatsiya fayllari
+__pycache__/
 *.py[cod]
 *$py.class
 
-.Python
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python build va dist papkalari
 build/
 develop-eggs/
 dist/
@@ -17,16 +24,13 @@ var/
 wheels/
 share/python-wheels/
 *.egg-info/
-.installed.cfg
 *.egg
 MANIFEST
-
 *.manifest
 *.spec
 
-pip-log.txt
-pip-delete-this-directory.txt
-
+# Logs va coverage
+*.log
 htmlcov/
 .tox/
 .nox/
@@ -41,36 +45,29 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# Localization
 *.mo
 *.pot
 
-*.log
+# Django maxfiy va database fayllari
+.env
+.env.local
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
+# Django migrations (faqat __init__.py saqlanadi)
 **/migrations/*
 !**/migrations/__init__.py
 
-.env
-.env.local
-.venv
-env/
-venv/
-ENV/
-
-.venv
-env/
-venv/
-ENV/
-
+# Media va static fayllar
 /media/
 /staticfiles/
 
+# IDE va sistem fayllari
 .vscode/
 .idea/
 *.swp
 *.swo
-
 .DS_Store
 Thumbs.db
