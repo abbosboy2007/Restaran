@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Menu - Fine Dining Restaurant
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/menu.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <main>
+    {% comment %}bg-hero start{% endcomment %}
+    <section class="bg-menu h-[40vh] flex items-center justify-center text-center text-white">
+      <div>
+        <h1 class="font-great-vibes text-6xl md:text-8xl text-orange-400">Our Specialties</h1>
+        <p class="text-lg mt-4 uppercase">
+          <a class="hover:text-orange-600" href="{% url 'home' %}">HOME</a>
+          <span class="mx-2">&gt;</span> menu <span class="mx-2">&gt;</span>
+        </p>
+      </div>
+    </section>
+    {% comment %}bg-hero end{% endcomment %}
+
+    {% comment %}menu items start{% endcomment %}
+  <section class="py-20 bg-white">
+    <div class="mx-auto sm:px-5 lg:px-10">
+      <div class="text-center mb-12">
+        <h2 class="text-7xl font-great-vibes text-orange-400">Our Menu</h2>
+        <div class="w-20 h-1 bg-orange-500 mx-auto my-4 mb-10"></div>
+      </div>
+
+      {% if categories %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          {% for category in categories %}
+            <div>
+              <h3 class="text-3xl font-bold text-center mb-8 text-black">{{ category.title }}</h3>
+              <div class="space-y-6">
+                {% for item in category.manls_set.all %}
+                
+                  {% comment %} {% if item.is_available %} {% endcomment %}
+                    <div class="flex items-center space-x-4 border card-menu">
+                      {% if item.image %}
+                        <img alt="{{ item.name }}" class="rounded-full object-cover" src="{{ item.image.url }}" />
+                      {% else %}
+                        <div class="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
+                          <span class="text-gray-600 text-xs">No Image</span>
+                        </div>
+                      {% endif %}
+                      <div class="flex-grow">
+                        <h4 class="font-semibold text-gray-800 title-menu">{{ item.name }}</h4>
+                        <p class="text-sm text-gray-500">{{ item.description|truncatechars:50 }}</p>
+                      </div>
+                      <span class="text-black price-menu font-bold">${{ item.price }}</span>
+                    </div>
+                  {% comment %} {% endif %} {% endcomment %}
+                {% empty %}
+                  <div class="text-center text-gray-500 py-8">
+                    <p>Bu kategoriyada hozircha mahsulotlar mavjud emas.</p>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        {% if categories %}
+          <div class="text-center mt-8">
+            <a href="{% url 'menu' %}" class="btn-primary px-6 py-3 text-lg font-semibold inline-block">View Full Menu</a>
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="text-center py-20">
+          <h3 class="text-2xl text-gray-600 mb-4">Menyu ma'lumotlari hozircha mavjud emas</h3>
+          <p class="text-gray-500">Admin paneldan menyu kategoriyalari va mahsulotlarini qo'shishingiz mumkin.</p>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+  {% comment %}menu items end{% endcomment %}
+
+
+    {% comment %}reservation start{% endcomment %}
+    <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <div class="text-left mb-8">
+              <h2 class="text-7xl font-great-vibes text-orange-400">Make Reservation</h2>
+              <div class="w-20 h-1 bg-orange-500 my-4"></div>
+            </div>
+            <form method="POST" action="{% url 'reservation_home' %}" class="space-y-4">
+              {% csrf_token %}
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700" for="{{ form.first_name.id_for_label }}">First Name</label>
+                  {{ form.first_name }}
+                  {% if form.first_name.errors %}
+                    <div class="text-red-500 text-sm mt-1">{{ form.first_name.errors }}</div>
+                  {% endif %}
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700" for="{{ form.last_name.id_for_label }}">Last Name</label>
+                  {{ form.last_name }}
+                  {% if form.last_name.errors %}
+                    <div class="text-red-500 text-sm mt-1">{{ form.last_name.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700" for="{{ form.phone.id_for_label }}">Phone</label>
+                  {{ form.phone }}
+                  {% if form.phone.errors %}
+                    <div class="text-red-500 text-sm mt-1">{{ form.phone.errors }}</div>
+                  {% endif %}
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700" for="{{ form.email.id_for_label }}">Email</label>
+                  {{ form.email }}
+                  {% if form.email.errors %}
+                    <div class="text-red-500 text-sm mt-1">{{ form.email.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700" for="{{ form.date.id_for_label }}">Date</label>
+                  {{ form.date }}
+                  {% if form.date.errors %}
+                    <div class="text-red-500 text-sm mt-1">{{ form.date.errors }}</div>
+                  {% endif %}
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700" for="{{ form.time.id_for_label }}">Time</label>
+                  {{ form.time }}
+                  {% if form.time.errors %}
+                    <div class="text-red-500 text-sm mt-1">{{ form.time.errors }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700" for="{{ form.guests.id_for_label }}">Number of Guests</label>
+                {{ form.guests }}
+                {% if form.guests.errors %}
+                  <div class="text-red-500 text-sm mt-1">{{ form.guests.errors }}</div>
+                {% endif %}
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700" for="{{ form.special_requests.id_for_label }}">Special Requests</label>
+                {{ form.special_requests }}
+                {% if form.special_requests.errors %}
+                  <div class="text-red-500 text-sm mt-1">{{ form.special_requests.errors }}</div>
+                {% endif %}
+              </div>
+              <button class="w-full bg-orange-500 text-white font-bold py-3 px-6 rounded-md hover:bg-orange-600 transition duration-300" type="submit">Make a Reservation</button>
+            </form>
+          </div>
+          <div class="bg-gray-200 location flex items-center justify-center rounded-lg">
+            {% if google_map_url %}
+              <iframe class="rounded-lg border-gray-300" src="{{ google_map_url }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            {% else %}
+              <p class="text-gray-500">Map will be shown here</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    {% comment %}reservation end{% endcomment %}
+  </main>
+{% endblock %}

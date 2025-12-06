@@ -1,0 +1,15 @@
+<header class="hero-bg text-white">
+  <div class="bg-black">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a class="text-4xl font-bold font-great-vibes" href="{% url 'home' %}">Appetizer</a>
+      <div class="hidden md:flex space-x-6 items-center">
+        <a class="hover:text-orange-400" href="{% url 'home' %}">Home</a>
+        <a class="hover:text-orange-400" href="{% url 'about' %}">About</a>
+        <a class="hover:text-orange-400" href="{% url 'menu' %}">Menu</a>
+        <a class="hover:text-orange-400" href="{% url 'create_contact' %}">Contact</a>
+        <a class="nav-but text-white font-semibold" href="{% url 'reservation_home' %}">Book a table</a>
+      </div>
+      <button class="md:hidden"><span class="material-icons">menu</span></button>
+    </nav>
+  </div>
+</header>
